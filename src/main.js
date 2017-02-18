@@ -14,6 +14,9 @@ Vue.use(VueResource);
 const routes = [{
   path: '/',
   component: goods
+},{
+  path: '/goods',
+  component: goods
 }];
 const router = new VueRouter({
   //配置切换用的className

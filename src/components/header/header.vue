@@ -65,21 +65,22 @@
     </transition>
   </div>
 </template>
-
 <script type="text/ecmascript-6">
   import star from 'components/star/star';
   export default {
-    //希望从父组件的道德数据
+    //希望从父组件的得到数据
     props: {
       seller: {
         type: Object
       }
     },
+    //初始化一些数据
     data() {
       return {
         detailShow: false
       };
     },
+    // VM 实例访问这些方法，或者在指令表达式中使用
     methods: {
       showDetail() {
         this.detailShow = true;
@@ -88,17 +89,17 @@
         this.detailShow = false;
       }
     },
+    //生命周期的理解
     created() {
       //根据seller.supports[0].type 的不同用不用的className
       this.classMap = ['decrease', 'discount', 'special', 'invoice', 'guarantee'];
     },
+    //注册自己用到的组件 可以起一个别名
     components: {
       star
     }
-
   }
 </script>
-
 <style lang="stylus" rel="stylesheet/stylus">
   @import "../../common/stylus/mixin";
   .header
