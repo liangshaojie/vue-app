@@ -1,12 +1,9 @@
 <template>
-  <div id="app">
-   <div>我是header</div>
-  </div>
-</template>
-<script type="text/ecmascript-6">
-export default {
 
-}
+</template>
+
+<script type="text/ecmascript-6">
+
 </script>
 
 <style lang="stylus" rel="stylesheet/stylus">
