@@ -13,7 +13,7 @@
       </div>
       <div class="foods-wrapper" ref="foodsWrapper">
         <ul>
-          <li class="food-list" v-for="item in goods">
+          <li class="food-list" v-for="item in goods" ref="foodList">
             <h1 class="title">{{item.name}}</h1>
             <ul>
               <li v-for="food in item.foods"  class="food-item border-1px">
@@ -31,7 +31,7 @@
                     <span class="old" v-show="food.oldPrice">￥{{food.oldPrice}}</span>
                   </div>
                   <div class="cartcontrol-wrapper">
-                    <!--<cartcontrol @add="addFood" :food="food"></cartcontrol>-->
+                    <cartcontrol @add="addFood" :food="food"></cartcontrol>
                   </div>
                 </div>
               </li>
@@ -49,6 +49,7 @@
 <script type="text/ecmascript-6">
   //  第一步引入bscroll库文件
   import BScroll from 'better-scroll';
+  import cartcontrol from 'components/cartcontrol/cartcontrol';
   const ERR_OK = 0;
   export default {
     // 接收一下传过来的sell数据
@@ -60,10 +61,12 @@
     data() {
       return {
         goods: [],
-        listHeight: []
+        listHeight: [],
+        scrollY: 0
       };
     },
     computed: {
+      //这里的方法一直在执行
       currentIndex() {
         for (let i = 0; i < this.listHeight.length; i++) {
           let height1 = this.listHeight[i];
@@ -83,20 +86,29 @@
           this.goods = response.data;
           this.$nextTick(() => {
             this._initScroll();
-//            this._calculateHeight();
+            this._calculateHeight();
           });
         }
       });
     },
     methods: {
       selectMenu(index, event) {
-//        if (!event._constructed) {
-//          return;
-//        }
-//        console.log(3232);
-//        let foodList = this.$refs.foodList;
-//        let el = foodList[index];
-//        this.foodsScroll.scrollToElement(el, 300);
+        if (!event._constructed) {
+          return;
+        }
+        let foodList = this.$refs.foodList;
+        let el = foodList[index];
+        this.foodsScroll.scrollToElement(el, 300);
+      },
+      addFood(target) {
+        this._drop(target);
+      },
+      _drop(target) {
+        // 体验优化,异步执行下落动画
+        this.$nextTick(() => {
+            console.log("this.$refs.shopcart.drop(target)");
+//          this.$refs.shopcart.drop(target);
+        });
       },
       _initScroll() {
         //创建菜单滚动条
@@ -108,7 +120,24 @@
           click: true,
           probeType: 3
         });
+        //foodlist滚动条监听事件
+        this.foodsScroll.on('scroll', (pos) => {
+          this.scrollY = Math.abs(Math.round(pos.y));
+        });
+      },
+      _calculateHeight() {
+        let foodList = this.$refs.foodList;
+        let height = 0;
+        this.listHeight.push(height);
+        for (let i = 0; i < foodList.length; i++) {
+          let item = foodList[i];
+          height += item.clientHeight;
+          this.listHeight.push(height);
+        }
       }
+    },
+    components: {
+      cartcontrol
     }
   }
 </script>
