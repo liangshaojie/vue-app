@@ -41,6 +41,11 @@
       </div>
       <!--<shopcart ref="shopcart" :selectFoods="selectFoods" :deliveryPrice="seller.deliveryPrice"-->
                 <!--:minPrice="seller.minPrice"></shopcart>-->
+      <shopcart ref="shopcart"
+                :selectFoods="selectFoods"
+                :deliveryPrice="seller.deliveryPrice"
+                :minPrice="seller.minPrice"
+      ></shopcart>
     </div>
     <!--<food @add="addFood" :food="selectedFood" ref="food"></food>-->
   </div>
@@ -50,6 +55,7 @@
   //  第一步引入bscroll库文件
   import BScroll from 'better-scroll';
   import cartcontrol from 'components/cartcontrol/cartcontrol';
+  import shopcart from 'components/shopcart/shopcart';
   const ERR_OK = 0;
   export default {
     // 接收一下传过来的sell数据
@@ -76,6 +82,17 @@
           }
         }
         return 0;
+      },
+      selectFoods() {
+        let foods = [];
+        this.goods.forEach((good) => {
+          good.foods.forEach((food) => {
+            if (food.count) {
+              foods.push(food);
+            }
+          });
+        });
+        return foods;
       }
     },
     created() {
@@ -106,8 +123,7 @@
       _drop(target) {
         // 体验优化,异步执行下落动画
         this.$nextTick(() => {
-            console.log("this.$refs.shopcart.drop(target)");
-//          this.$refs.shopcart.drop(target);
+            this.$refs.shopcart.drop(target);
         });
       },
       _initScroll() {
@@ -137,7 +153,8 @@
       }
     },
     components: {
-      cartcontrol
+      cartcontrol,
+      shopcart
     }
   }
 </script>
