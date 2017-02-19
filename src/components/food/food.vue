@@ -33,9 +33,6 @@
       <split></split>
       <div class="rating">
         <h1 class="title">商品评价</h1>
-        <!--<ratingselect @select="selectRating" @toggle="toggleContent" :selectType="selectType"-->
-                      <!--:onlyContent="onlyContent" :desc="desc"-->
-                      <!--:ratings="food.ratings"></ratingselect>-->
         <ratingselect :selectType="selectType"
                       :onlyContent="onlyContent"
                       :desc="desc"
@@ -43,19 +40,19 @@
                       @toggle="toggleContent"
                       :ratings="food.ratings"></ratingselect>
         <div class="rating-wrapper">
-          <ul >
-            <li class="rating-item border-1px">
+          <ul v-show="food.ratings && food.ratings.length">
+            <li v-show="needShow(rating.rateType,rating.text)" class="rating-item border-1px" v-for="rating in food.ratings">
               <div class="user">
-                <span class="name"></span>
-                <img class="avatar" width="12" height="12" >
+                <span class="name">{{rating.username}}</span>
+                <img class="avatar" width="12" height="12" :src="rating.avatar" >
               </div>
-              <div class="time"></div>
+              <div class="time">{{rating.rateTime }}</div>
               <p class="text">
-                <span></span>
+                <span :class="{'icon-thumb_up':rating.rateType===0,'icon-thumb_down':rating.rateType===1}"></span>{{rating.text}}
               </p>
             </li>
           </ul>
-          <div class="no-rating" >暂无评价</div>
+          <div class="no-rating" v-show="!food.ratings || !food.ratings.length" >暂无评价</div>
         </div>
       </div>
     </div>
@@ -94,6 +91,16 @@
           this.scroll.refresh();
         });
       },
+      needShow(type, text) {
+        if (this.onlyContent && !text) {
+          return false;
+        }
+        if (this.selectType === ALL) {
+          return true;
+        } else {
+          return type === this.selectType;
+        }
+      },
       toggleContent() {
         this.onlyContent = !this.onlyContent;
         this.$nextTick(() => {
@@ -118,9 +125,9 @@
         this.showFlag = false;
       },
       addFirst(event) {
-//        if (!event._constructed) {
-//          return;
-//        }
+        if (!event._constructed) {
+          return;
+        }
         this.$emit('add', event.target);
         Vue.set(this.food, 'count', 1);
       },
