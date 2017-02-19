@@ -36,6 +36,12 @@
         <!--<ratingselect @select="selectRating" @toggle="toggleContent" :selectType="selectType"-->
                       <!--:onlyContent="onlyContent" :desc="desc"-->
                       <!--:ratings="food.ratings"></ratingselect>-->
+        <ratingselect :selectType="selectType"
+                      :onlyContent="onlyContent"
+                      :desc="desc"
+                      @select="selectRating"
+                      @toggle="toggleContent"
+                      :ratings="food.ratings"></ratingselect>
         <div class="rating-wrapper">
           <ul >
             <li class="rating-item border-1px">
@@ -61,6 +67,8 @@
   import BScroll from 'better-scroll';
   import split from 'components/split/split';
   import cartcontrol from 'components/cartcontrol/cartcontrol';
+  import ratingselect from 'components/ratingselect/ratingselect';
+  const ALL = 2;
   export default {
     props: {
       food: {
@@ -70,20 +78,32 @@
     data() {
       return {
         showFlag: false,
-//        selectType: ALL,
-//        onlyContent: true,
-//        desc: {
-//          all: '全部',
-//          positive: '推荐',
-//          negative: '吐槽'
-//        }
+        selectType: ALL,
+        onlyContent: true,
+        desc: {
+          all: '全部',
+          positive: '推荐',
+          negative: '吐槽'
+        }
       };
     },
     methods: {
+      selectRating(type) {
+        this.selectType = type;
+        this.$nextTick(() => {
+          this.scroll.refresh();
+        });
+      },
+      toggleContent() {
+        this.onlyContent = !this.onlyContent;
+        this.$nextTick(() => {
+          this.scroll.refresh();
+        });
+      },
       show() {
         this.showFlag = true;
-//        this.selectType = ALL;
-//        this.onlyContent = true;
+        this.selectType = ALL;
+        this.onlyContent = true;
         this.$nextTick(() => {
           if (!this.scroll) {
             this.scroll = new BScroll(this.$refs.food, {
@@ -110,7 +130,8 @@
     },
     components: {
       cartcontrol,
-      split
+      split,
+      ratingselect
     }
   }
 </script>
