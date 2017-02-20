@@ -3,9 +3,10 @@ import App from './App'
 //引入route
 import VueRouter from 'vue-router';
 import VueResource from 'vue-resource';
-//引入goods组件
+//引入goods组件 ratings seller
 import goods from 'components/goods/goods';
 import ratings from 'components/ratings/ratings';
+import seller from 'components/seller/seller';
 
 import 'common/stylus/index.styl';
 //使用route
@@ -21,6 +22,9 @@ const routes = [{
 },{
   path: '/ratings',
   component: ratings
+},{
+  path: '/seller',
+  component: seller
 }];
 const router = new VueRouter({
   //配置切换用的className
