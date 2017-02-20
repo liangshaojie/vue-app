@@ -88,6 +88,12 @@
         });
       }
     },
+    mounted() {
+      this.$nextTick(() => {
+        this._initScroll();
+        this._initPics();
+      });
+    },
     created() {
       this.classMap = ['decrease', 'discount', 'special', 'invoice', 'guarantee'];
     },
