@@ -5,6 +5,7 @@ import VueRouter from 'vue-router';
 import VueResource from 'vue-resource';
 //引入goods组件
 import goods from 'components/goods/goods';
+import ratings from 'components/ratings/ratings';
 
 import 'common/stylus/index.styl';
 //使用route
@@ -17,6 +18,9 @@ const routes = [{
 },{
   path: '/goods',
   component: goods
+},{
+  path: '/ratings',
+  component: ratings
 }];
 const router = new VueRouter({
   //配置切换用的className
