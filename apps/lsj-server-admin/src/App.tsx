@@ -25,6 +25,10 @@ import { ProductList } from "./product/ProductList";
 import { ProductCreate } from "./product/ProductCreate";
 import { ProductEdit } from "./product/ProductEdit";
 import { ProductShow } from "./product/ProductShow";
+import { MatLibList } from "./matLib/MatLibList";
+import { MatLibCreate } from "./matLib/MatLibCreate";
+import { MatLibEdit } from "./matLib/MatLibEdit";
+import { MatLibShow } from "./matLib/MatLibShow";
 import { jwtAuthProvider } from "./auth-provider/ra-auth-jwt";
 
 const App = (): React.ReactElement => {
@@ -85,6 +89,13 @@ const App = (): React.ReactElement => {
           edit={ProductEdit}
           create={ProductCreate}
           show={ProductShow}
+        />
+        <Resource
+          name="MatLib"
+          list={MatLibList}
+          edit={MatLibEdit}
+          create={MatLibCreate}
+          show={MatLibShow}
         />
       </Admin>
     </div>

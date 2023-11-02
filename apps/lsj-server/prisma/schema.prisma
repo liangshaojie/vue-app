@@ -65,3 +65,12 @@ model Product {
   orders      Order[]
   updatedAt   DateTime @updatedAt
 }
+
+model MatLib {
+  createdAt DateTime @default(now())
+  id        String   @id @default(cuid())
+  isDelete  Boolean?
+  matName   String?
+  matTag    String?
+  updatedAt DateTime @updatedAt
+}
